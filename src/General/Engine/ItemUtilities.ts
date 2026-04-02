@@ -386,15 +386,17 @@ export function getItemLevelBoost(bossID: number, difficulty: number) {
 export const getItemEffectOptions = (itemID: number, gameType: gameTypes = "Retail"): { type: string; label: string; effectName: string }[] => {
   const options: { type: string; label: string; effectName: string }[] = []; // type: "embellishment", label: "Add Embellishment: Writhing Armor Banding", effectName: "Writhing Armor Banding"
   const item = getItem(itemID);
+  const isEngineering = getItemProp(itemID, "engineering");
 
   if (getItemProp(item.id, "crafted")) {
     // Crafted item effects are limited to Embellishments currently.
     if (item.slot.includes("Weapon") || item.slot === "Offhand") {
       // Sigil embellishments are limited to weapon and offhand slots. Does NOT include Shields.
       options.push({type: "embellishment", label: "Darkmoon Sigil: Hunt", effectName: "Darkmoon Sigil: Hunt"})
+      options.push({type: "embellishment", label: "Darkmoon Sigil: Void", effectName: "Darkmoon Sigil: Void"})
       //options.push({type: "embellishment", label: "Darkmoon Sigil: Symbiosis", effectName: "Darkmoon Sigil: Symbiosis"})
     }
-    if (item.slot !== "Finger" && item.slot !== "Neck" && !item.slot.includes("Weapon")) {
+    if (item.slot !== "Finger" && item.slot !== "Neck" && !item.slot.includes("Weapon") && !isEngineering) {
       // Linings & Armor Banding are limited to non-weapon, non-jewelry slots.
       options.push({type: "embellishment", label: "Arcanoweave Lining", effectName: "Arcanoweave Lining"})
       options.push({type: "embellishment", label: "Primal Spore Binding", effectName: "Primal Spore Lining"})
@@ -1082,7 +1084,8 @@ export function autoAddItems(player: Player, gameType: gameTypes, itemLevel: num
         ].includes(item.id)))
         && sourceCheck) { 
           const ilvlBoost = (maxChecked && gameType === "Classic" && ["T15", "T15+"].includes(source) && item.maxUpgrades) ? item.maxUpgrades : 0;
-          const newItem = new Item(item.id, item.name, slot, 0, "", 0, gameType === "Classic" ? item.itemLevel + ilvlBoost : itemLevel, "", gameType);
+          const tert = [249912, 249913, 249914, 249915].includes(item.id) ? "Leech" : "";
+          const newItem = new Item(item.id, item.name, slot, 0, tert, 0, gameType === "Classic" ? item.itemLevel + ilvlBoost : itemLevel, "", gameType);
          
           if (source === "S3 Dinar") newItem.exclusiveItem = true;
           if (gameType === "Retail") newItem.quality = 4;
@@ -1097,6 +1100,7 @@ export function autoAddItems(player: Player, gameType: gameTypes, itemLevel: num
 }
 
 
+
 // Return an item score.
 // Score is calculated by multiplying out an items stats against the players stat weights.
 // Special effects, sockets and leech are then added afterwards.
@@ -1108,11 +1112,12 @@ export function scoreItem(item: Item, player: Player, contentType: contentTypes,
   let item_stats = { ...item.stats };
 
   if (gameType === "Classic" && item.slot === "trinket") {
-    // Try and reforge 
-    const playerStatPriorityList = player.getActiveProfile("Raid").autoReforgeOrder;
+    // Try and reforge
+    const activeProfile = player.getActiveProfile("Raid");
+    const playerStatPriorityList = activeProfile?.autoReforgeOrder;
     const trinketSecondary = Object.keys(item.stats)[0];
 
-    if (trinketSecondary && trinketSecondary !== "intellect" && trinketSecondary !== "stamina") {
+    if (playerStatPriorityList && trinketSecondary && trinketSecondary !== "intellect" && trinketSecondary !== "stamina") {
           const trinketSecondaryPos = playerStatPriorityList.indexOf(trinketSecondary);
 
           if (trinketSecondaryPos !== 0) {

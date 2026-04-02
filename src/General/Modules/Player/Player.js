@@ -5,17 +5,13 @@ import Item from "../../Items/Item";
 import { scoreItem, getItemDB, getItemAllocations, calcStatsAtLevel } from "../../Engine/ItemUtilities";
 import { getUnique } from "./PlayerUtilities";
 import CastModel from "./CastModel";
-import { druidDefaultStatWeights } from "./ClassDefaults/RestoDruid/DruidHealingFocus";
-import { shamanDefaultStatWeights } from "./ClassDefaults/RestoShaman/RestoShamanDefaults";
-import { discPriestDefaultStatWeights } from "./ClassDefaults/DisciplinePriest/DiscPriestDefaults";
-import { holyPriestDefaultStatWeights } from "./ClassDefaults/HolyPriest/HolyPriestDefaults";
-import { monkDefaultStatWeights } from "./ClassDefaults/MistweaverMonk/MonkDefaults";
 import { reportError } from "../../SystemTools/ErrorLogging/ErrorReporting";
 import ItemSet from "../../../General/Modules/TopGear/ItemSet";
 import { apiGetPlayerImage2, apiGetPlayerAvatar2 } from "../SetupAndMenus/ConnectionUtilities";
 import { getBestCombo, convertGemNameToID } from "Retail/Engine/EffectFormulas/Generic/PatchEffectItems/OnyxAnnuletData";
 import { classRaceDB } from "Databases/ClassRaceDB";
 import { bonus_IDs } from "Retail/Engine/BonusIDs";
+import { CONSTANTS } from "General/Engine/CONSTANTS";
 
 export class Player {
   constructor(playerName, specName, charID, region, realm, race, statWeights = "default", gameType = "Retail") {
@@ -254,22 +250,7 @@ export class Player {
   catalyzeItem = (item) => {
     const slot = item.slot;
     const pClass = this.spec;
-    const classTag = {
-      /*"Holy Priest": "Confessor's Unshakable",
-      "Discipline Priest": "Confessor's Unshakable",
-      "Restoration Druid": "of Reclaiming Blight",
-      "Restoration Shaman": "Gale Sovereign's",
-      "Mistweaver Monk": "Ageless Serpent's",
-      "Holy Paladin": "Aureate Sentry's",
-      "Preservation Evoker": "Opulent Treasurescale's",*/
-      "Preservation Evoker": "Spellweaver's Immaculate", 
-      "Holy Paladin": "of the Lucent Battalion", 
-      "Holy Priest": "Dying Star's", 
-      "Discipline Priest": "Dying Star's", 
-      "Restoration Shaman": "of Channeled Fury", 
-      "Mistweaver Monk": "of Fallen Storms", 
-      "Restoration Druid": "of the Mother Eagle"
-    };
+    const classTag = CONSTANTS.tierNames;
 
     const temp = getItemDB("Retail").filter(function (item) {
       return item.slot === slot && item.name.includes(classTag[pClass]);
@@ -679,15 +660,15 @@ export class Player {
       };
     } else if (spec === SPEC.RESTOSHAMAN) {
       // all of this needs a proper input once
-      this.castModels.push(new CastModel(spec, "Raid", "Farseer", 0));
+      this.castModels.push(new CastModel(spec, "Raid", "Default", 0));
       this.castModels.push(new CastModel(spec, "Dungeon", "Default", 1));
       //this.castModels.push(new CastModel(spec, "Raid", "Default", 2));
       this.activeStats = {
         intellect: 2400,
-        haste: 540,
-        crit: 440,
+        haste: 240,
+        crit: 700,
         mastery: 120,
-        versatility: 210,
+        versatility: 410,
         stamina: 1900,
       };
     } else if (spec === SPEC.DISCPRIEST) {
@@ -735,7 +716,7 @@ export class Player {
       const models = [
         { identifier: "Yu'lon", content: "Raid" },
         { identifier: "Dungeon Default", content: "Dungeon" },
-        { identifier: "Chi-Ji (Beta)", content: "Raid" },
+        //{ identifier: "Chi-Ji (Beta)", content: "Raid" },
       ];
       models.forEach((model, i) => this.castModels.push(new CastModel(spec, model.content, model.identifier, i)));
 

@@ -142,13 +142,13 @@ export function getSetItemLevel(itemSource, playerSettings, raidIndex = 0, itemI
     //if (difficulty === CONSTANTS.difficulties.heroicMax || difficulty === CONSTANTS.difficulties.heroicMax || difficulty === CONSTANTS.difficulties.mythicMax) itemLevel += getVeryRareItemLevelBoost(itemID, bossID, difficulty);
 
     // Otherwise grab both the very rare and any boss-specific item level increase.
-    itemLevel += getItemLevelBoost(bossID, difficulty) + getVeryRareItemLevelBoost(itemID, bossID, difficulty);
+    //itemLevel += getItemLevelBoost(bossID, difficulty) + getVeryRareItemLevelBoost(itemID, bossID, difficulty);
 
   }
 
   // World Bosses
   else if (instanceID === 1312) {
-    itemLevel = 603;
+    itemLevel = 250;
   }
 
   else if (instanceID === -1) {
@@ -200,7 +200,7 @@ function buildItem(player, contentType, rawItem, itemLevel, source, settings, up
     item = new Item(itemID, "", itemSlot, false, tertiary, 0, itemLevel, bonusIDs);
   }
 
-  if (item.slot === "Neck" || item.slot === "Finger") item.socket = 2;
+  //if (item.slot === "Neck" || item.slot === "Finger") item.socket = 1;
   //let itemAllocations = getItemAllocations(itemID, []);
   //item.stats = calcStatsAtLevel(itemLevel, itemSlot, itemAllocations, "");
   //item.level = itemLevel;

@@ -82,8 +82,8 @@ class CastModel {
 
   setDefaults = (spec, contentType, modelID) => {
     this.fightInfo = {
-      hps: 100000,
-      rawhps: 115000,
+      hps: 137000,
+      rawhps: 155000,
       dps: 2000,
       fightLength: 400,
       reportID: "Default",
@@ -132,11 +132,11 @@ class CastModel {
         this.fightInfo.dps = 40000;
       }
     } else if (spec === SPEC.RESTOSHAMAN) {
-      if (modelID === "Farseer") {
-        this.modelName = "Farseer";
+      if (modelID === "Default") {
+        this.modelName = "Default";
         this.modelType["Raid"] = "CastModel";
         this.modelType["Dungeon"] = "Default";
-        this.heroTree = "Farseer";
+        this.heroTree = "Default";
         this.runCastModel = scoreShamanSet;
         spellList = shamanDefaultSpellData(contentType);
         specialQueries = shamanDefaultSpecialQueries(contentType);

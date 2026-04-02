@@ -73,6 +73,32 @@ describe("Test Item Level Imports", () => {
     
     });
 
+    test("Post-Squish Curve Helm", () => {
+        const line = "legs=,id=251130,bonus_id=13441/13436/13578,drop_level=87"
+
+            const id = 251130
+            const bonusIDs = [13441,13436,13578]
+
+            const itemLevel = getItemLevel(id, bonusIDs, 87)
+
+            expect(itemLevel).toEqual(180);
+
+
+    });
+
+    test("Timewarped Ring", () => {
+        const line = "finger1=,id=171853,enchant_id=7969,gem_id=240900,bonus_id=8902/7756/13668/12699/41/12794"
+
+            const id = 171853
+            const bonusIDs = [8902,7756,13668,12699,41,12794]
+
+            const itemLevel = getItemLevel(id, bonusIDs)
+
+            expect(itemLevel).toEqual(263);
+
+
+    });
+
     test("Test Crafted Item 727 Pre-Squish Item", () => {
         /*
             Bonus IDs:

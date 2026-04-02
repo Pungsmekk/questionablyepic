@@ -35,17 +35,20 @@ const initialState : RootState = {
     delayOnUseTrinkets: { value: true, options: [true, false], category: "trinkets", type: "selector", gameType: "Retail" },
     
     enchantItems: { value: true, options: [true, false], category: "topGear", type: "selector", gameType: "Retail" },
-    catalystLimit: { value: 1, options: [1, 2, 3, 4], category: "topGear", type: "selector", gameType: "Retail" },
+    catalystLimit: { value: 4, options: [1, 2, 3, 4], category: "topGear", type: "selector", gameType: "Retail" },
     upgradeFinderMetric: { value: "Show % Upgrade", options: ["Show % Upgrade", "Show HPS"], category: "upgradeFinder", type: "selector", gameType: "Retail" },
 
     topGearAutoGem: { value: false, options: [true, false], category: "topGear", type: "selector", gameType: "Retail" },
     calculateEmbellishments: { value: true, options: [true, false], category: "embellishments", type: "selector", gameType: "Retail" },
+    cosmicCrescendoUsage: { value: 75, options: [], category: "trinkets", type: "Entry", gameType: "Retail" },
+    crucibleUpgrades: { value: "Fully Upgraded", options: ["Fully Upgraded", "Not Upgraded"], category: "trinkets", type: "selector", gameType: "Retail" },
+
     //socketedGems: { value: 4, options: [0, 1, 2, 3, 4, 5, 6, 7, 8], category: "embellishments", type: "Entry", gameType: "Retail" },
     
     //gemSettings: {value: "Simple", options: ["Simple", /*"Precise (Beta)"*/], category: "topGear", type: "selector", gameType: "Retail"}, // TODO: Add a "Keep current".
     //runeChoice: {value: "Automatic", options: ["Automatic", "Haste", "Crit", "Mastery"], category: "topGear", type: "selector", gameType: "Retail"},
     flaskChoice: {value: "Automatic", options: ["Automatic", "Crit", "Mastery", "Versatility", "Haste"], category: "topGear", type: "selector", gameType: "Retail"},
-    liningUptime: { value: 30, options: [], category: "embellishments", type: "Entry", gameType: "Retail" },
+    liningUptime: { value: 60, options: [], category: "embellishments", type: "Entry", gameType: "Retail" },
 
     // Spec values:
     masteryEffectivenessShaman: { value: 30, options: [], category: "specSpecific", type: "Entry", gameType: "Retail", spec: "Restoration Shaman" },

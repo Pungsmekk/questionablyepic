@@ -266,14 +266,16 @@ export const embellishmentData = [
         effects: [
         { //
             scalingClass: -790,
-            coefficient: 0.78882032633,
+            coefficient: 0.78882,
             stat: "crit",
-            duration: 10,
-            ppm: 2,
         },
         ],
         runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
             let bonus_stats: Stats = {};
+
+            const uptime = getSetting(additionalData.settings, "liningUptime") / 100
+            console.log(processedValue(data[0], itemLevel) )
+            bonus_stats.crit = processedValue(data[0], itemLevel) * uptime;
 
             return bonus_stats;
         }
@@ -376,7 +378,7 @@ export const embellishmentData = [
 
             bonus_stats.versatility = processedValue(data[0], itemLevel) * 1.13 * data[0].ppm! * data[0].duration! / 60;
 
-            if (player.spec !== "Discipline Priest" && player.spec !== "Restoration Druid" && additionalData.contentType === "Raid") {
+            if (player.spec !== "Discipline Priest" && player.spec !== "Restoration Druid" && player.spec !== "Mistweaver Monk" && additionalData.contentType === "Raid") {
                 bonus_stats.versatility = bonus_stats.versatility * 0.5; // DPS procs only
             }
 

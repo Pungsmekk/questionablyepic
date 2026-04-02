@@ -19,6 +19,92 @@ export const getVersion = (): string => {
 }
 
 export const changeLog: entry[] = [
+  {
+    version: "12.0.1 / 5.5.3",
+    update: 12,
+    date: "April 1",
+    changes: [ 
+      "Improved Engineering support.",
+      "The special raid leech items that drop in Midnight Falls will now correctly have leech if added in-app. Imports always worked correctly.",
+      "Bugfix: The Paladin stat panel haste stat should now be correct. No change to results.",
+      "Bugfix: Fixed a few Timewalking imports.",
+    ]
+  },
+        {
+    version: "12.0.1 / 5.5.3",
+    update: 11,
+    date: "March 31",
+    changes: [ 
+      "In-game trinket tuning.",
+      "Upped Crucible Limit to 4 by default.",
+      "Tagged the Tailoring Cloak as a crafted item.",
+      "Added Catalysm trinkets to the chart under the Timewalking filter.",
+      "Mists of Pandaria: Added new item upgrade system.",
+    ]
+  },
+      {
+    version: "12.0.1 / 5.5.3",
+    update: 10,
+    date: "March 28",
+    changes: [ 
+      "Fixed Mistweaver Monk tier set.",
+      "Updated trinkets based on in-game changes.",
+      "Added setting for the Crucible of Erratic Energies and enabled it by default."
+    ]
+  },
+    {
+    version: "12.0.1 / 5.5.3",
+    update: 9,
+    date: "March 25",
+    changes: [ 
+      "Fixed some tier set issues",
+      "Added missing images to Upgrade Finder",
+      "Item Catalyst conversions should now work for the season.",
+      "Removed some old items from the Crafts section of the Upgrade Finder.",
+    ]
+  },
+                    {
+    version: "12.0.1 / 5.5.3",
+    update: 8,
+    date: "March 24",
+    changes: [ 
+      "Added the Haranir race",
+      "Emerald Coach Whistle nerfed by 50% in-game.",
+      "Fixed a bug where some lower item level items wouldn't import.",
+    ]
+  },
+                  {
+    version: "12.0.1 / 5.5.3",
+    update: 7,
+    date: "March 21",
+    changes: [ 
+      "Added a new icon type to the trinket chart for highly volatile trinkets that are likely to see changes.",
+      "Trinket updates for Ribbon, Emerald Coach Whistle, Light of the Cosmic Crescendo, Radiant Sunstone, Consecrated Chalice. No real changes in relative trinket values.",
+      "New Settings: Cosmic Crescendo usage, ",
+      "Added Hero-track versions of Delve trinkets to the chart.",
+    ]
+  },
+                {
+    version: "12.0.1 / 5.5.3",
+    update: 6,
+    date: "March 18",
+    changes: [ 
+      "Trinket updates for Ribbon, Alnseer. Embellishment update for Mistweaver.",
+      "The upgrade to Max import option should work again.",
+      "Added Eredar Battle Cape. Removed Unique Equip tag from PVP rings.",
+    ]
+  },
+              {
+    version: "12.0.1 / 5.5.3",
+    update: 5,
+    date: "March 15",
+    changes: [ 
+      "Enabled Upgrade Finder.",
+      "Updated Shaman profile based on tuning.",
+      "Added formulas for Litany of Lightblind Wrath, Drum of Renewed Bonds, Primal Philosopher's Stone",
+      "Embellishment Chart: Added Arcanoweave Trappings, fixed Pango Charm."
+    ]
+  },
             {
     version: "12.0.1 / 5.5.3",
     update: 4,

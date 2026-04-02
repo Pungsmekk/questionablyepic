@@ -4,6 +4,28 @@ import trinketRawData from "Retail/Engine/EffectFormulas/Generic/Trinkets/Trinke
 import { STATCONVERSION } from "General/Engine/STAT"
 
 export const otherTrinketData = [
+    {
+      name: "Drum of Renewed Bonds",
+      description: "Not available on Myth track but quite good as an early trinket. You are able to pick which secondary stat it gives.",
+      addonDescription: "Not available on Myth track but quite good as an early trinket. You are able to pick which secondary stat it gives.",
+      effects: [
+        {
+          duration: 12,
+          ppm: 1.5,
+          stat: "highest",
+        },
+      ],
+      runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+        let bonus_stats = {};
+
+        //console.log(JSON.stringify(additionalData.selectedOptions));
+
+        const bestStat = player.getHighestStatWeight(additionalData.contentType);
+        bonus_stats[bestStat] = runGenericPPMTrinket({...data[0], ...trinketRawData["Drum of Renewed Bonds"][0], stat: bestStat}, itemLevel, player);
+  
+        return bonus_stats;
+      }
+  },
     { 
     name: "Gift of Light",
     description: "",
@@ -18,15 +40,17 @@ export const otherTrinketData = [
     runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
       let bonus_stats: Stats = {};
 
-      bonus_stats.crit = runGenericPPMTrinket({...data[0], ...trinketRawData["Gift of Light"][0]}, itemLevel);
+      bonus_stats.mastery = runGenericPPMTrinket({...data[0], ...trinketRawData["Gift of Light"][0]}, itemLevel);
 
       return bonus_stats;
     }
   },
         { 
     name: "Crucible of Erratic Energies",
-    description: "NERFED Mar 6th. An ok crit / leech stat stick that gets stronger as you complete content in Voidstorm. Rating might change as the trinket is still very unexplored.",
-    addonDescription: "",
+    description: "A powerful crit / leech stat stick that's STILL very overbudget. Includes the world buffs available since they work in raids / dungeons too. You can turn this off in settings. Further nerfs possible.",
+    warningFlag: true,
+    setting: true,
+    addonDescription: "A powerful crit / leech stat stick that's STILL very overbudget. Includes the world buffs available since they work in raids / dungeons too. You can turn this off in settings. Further nerfs possible.",
     effects: [
       {
         duration: 10,
@@ -37,8 +61,16 @@ export const otherTrinketData = [
     runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
       let bonus_stats: Stats = {};
 
-      bonus_stats.crit = runGenericPPMTrinket({...data[0], ...trinketRawData["Crucible of Erratic Energies"][0]}, itemLevel);
-      bonus_stats.leech = convertPPMToUptime(data[0].ppm, data[0].duration) * 2 * STATCONVERSION.LEECH;
+      const trinketData = {...data[0], ...trinketRawData["Crucible of Erratic Energies"][0]}
+
+      if (getSetting(additionalData.settings, "crucibleUpgrades") === "Fully Upgraded") {
+        trinketData.coefficient *= 1.2; 
+        trinketData.duration = 20;
+        trinketData.ppm = 5;
+      }
+
+      bonus_stats.crit = runGenericPPMTrinket(trinketData, itemLevel);
+      bonus_stats.leech = convertPPMToUptime(trinketData.ppm, trinketData.duration) * 1 * STATCONVERSION.LEECH;
 
       return bonus_stats;
     }
@@ -60,6 +92,25 @@ export const otherTrinketData = [
       let bonus_stats: Stats = {};
 
       bonus_stats.intellect = runGenericPPMTrinket({...data[0], ...trinketRawData["Magister's Alchemist Stone"][0]}, itemLevel);
+
+      return bonus_stats;
+    }
+  },
+        { 
+    name: "Galactic Gladiator's Insignia of Alacrity",
+    description: "",
+    addonDescription: "",
+    effects: [
+      {
+        duration: 20,
+        ppm: 1.5,
+        stat: "intellect",
+      },
+    ],
+    runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+      let bonus_stats: Stats = {};
+
+      bonus_stats.intellect = runGenericPPMTrinket({...data[0], ...trinketRawData["Galactic Gladiator's Insignia of Alacrity"][0]}, itemLevel);
 
       return bonus_stats;
     }
@@ -107,6 +158,43 @@ export const otherTrinketData = [
           let bonus_stats: Stats = {};
     
           bonus_stats.hps = runGenericFlatProc({...data[0], ...trinketRawData["Cosmic Bell"][0]}, itemLevel, player, additionalData.contentType)
+          return bonus_stats;
+        }
+      },
+      {
+        name: "Consecrated Chalice",
+        description: "Stacks actually drop outside of combat!",
+        addonDescription: "Stacks actually drop outside of combat!",
+        effects: [
+          { 
+            secondaries: ['versatility', 'crit', 'haste'],
+            ppm: 5,
+            efficiency: {Raid: 0.8, Dungeon: 0.85} //
+          },
+        ],
+        runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+          let bonus_stats: Stats = {};
+    
+          bonus_stats.hps = runGenericFlatProc({...data[0], ...trinketRawData["Consecrated Chalice"][0]}, itemLevel, player, additionalData.contentType)
+          return bonus_stats;
+        }
+      },
+            {
+        name: "Tangle of Vibrant Vines",
+        description: "Adding a rare G tier to my tier list to handle this monstrosity.",
+        addonDescription: "Dreadful.",
+        effects: [
+          { 
+            secondaries: ['haste', 'versatility', 'crit'],
+            ppm: 1.5,
+            targets: 1,
+            efficiency: {Raid: 0.7, Dungeon: 0.55} //
+          },
+        ],
+        runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+          let bonus_stats: Stats = {};
+    
+          bonus_stats.hps = runGenericFlatProc({...data[0], ...trinketRawData["Tangle of Vibrant Vines"][1]}, itemLevel, player, additionalData.contentType)
           return bonus_stats;
         }
       },

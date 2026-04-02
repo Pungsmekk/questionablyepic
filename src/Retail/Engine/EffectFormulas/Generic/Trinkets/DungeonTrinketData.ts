@@ -4,39 +4,17 @@ import trinketRawData from "Retail/Engine/EffectFormulas/Generic/Trinkets/Trinke
 
 export const dungeonTrinketData = 
 [
-      {
-      name: "Litany of Lightblind Wrath",
-      description: "",
-      addonDescription: "",
-      effects: [
-        {  // Damage Effect - Need to check if it double dips Vers
-          secondaries: ['crit', 'versatility'],
-          cooldown: 90,
-          ticks: 5,
-          efficiency: 1 //
-        },
-        
-      ],
-      runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
-        let bonus_stats: Stats = {};
-  
-        const dps = runGenericFlatProc({...data[0], ...trinketRawData["Litany of Lightblind Wrath"][0]}, itemLevel, player, additionalData.contentType)
-        bonus_stats.dps = dps;
-        bonus_stats.hps = dps// * 5;
 
-        return bonus_stats;
-      }
-    },
     { //
         id: 193718,
         name: "Emerald Coach's Whistle",
-        description: "Really shines as a support-trinket. Poor if you only care about personal benefit.",
-        addonDescription: "Really shines as a support-trinket. Poor if you only care about personal benefit.",
+        description: "Nerfed! Still an ok support trinket but no longer a frontrunner.",
+        addonDescription: "Nerfed! Still an ok support trinket but no longer a frontrunner.",
         effects: [
         { // Stat Proc Portion
             stat: "mastery",
             duration: 10,
-            ppm: 1,
+            ppm: 1.9,
         },
         ],
         runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
@@ -55,11 +33,9 @@ export const dungeonTrinketData =
       addonDescription: "Procs a lot when active (about 20 times) but the very long cooldown prevents it from being a real contender.",
       effects: [
         { 
-          secondaries: ['versatility', 'crit'],
-          cooldown: 180,
-          duration: 45,
+          secondaries: ['versatility', 'crit', 'haste'],
           ppm: 25 * (45 / 180), // Only active while the trinket is up which is 45/180 of the time.
-          efficiency: {Raid: 0.7, Dungeon: 0.55} //
+          efficiency: {Raid: 0.8, Dungeon: 0.65} //
         },
       ],
       runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
@@ -137,6 +113,26 @@ export const dungeonTrinketData =
   
         bonus_stats.hps = runGenericFlatProc({...data[0], ...trinketRawData["Seed of Radiant Hope"][0]}, itemLevel, player, additionalData.contentType)
         bonus_stats.hps += runGenericFlatProc({...data[1], ...trinketRawData["Seed of Radiant Hope"][1]}, itemLevel, player, additionalData.contentType)
+        return bonus_stats;
+      }
+    },
+        {
+      name: "Radiant Sunstone",
+      description: "Doesn't include the extra heal portion which is currently undertested.",
+      addonDescription: "Doesn't include the extra heal portion which is currently undertested.",
+      effects: [
+        {  // HoT effect
+          secondaries: ['crit', 'versatility'],
+          cooldown: 120,
+          efficiency: 0.7 //
+        },
+        
+      ],
+      runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+        let bonus_stats: Stats = {};
+  
+        bonus_stats.hps = runGenericFlatProc({...data[0], ...trinketRawData["Radiant Sunstone"][0]}, itemLevel, player, additionalData.contentType)
+        //bonus_stats.hps += runGenericFlatProc({...data[1], ...trinketRawData["Radiant Sunstone"][1]}, itemLevel, player, additionalData.contentType)
         return bonus_stats;
       }
     },
@@ -298,6 +294,25 @@ export const dungeonTrinketData =
           let bonus_stats: Stats = {};
     
           bonus_stats[data[0].stat!] = runGenericOnUseTrinket({...data[0], ...trinketRawData["Emberwing Feather"][0]}, itemLevel, additionalData.castModel)
+          
+          return bonus_stats;
+        }
+      },
+      { // Could be modelled better, but the trinket isn't very relevant.
+        name: "Nevermelting Ice Crystal",
+        description: "A brutally long cooldown reduces any real potential.",
+        addonDescription: "A brutally long cooldown reduces any real potential.",
+        effects: [
+          { // 
+            duration: 20,
+            cooldown: 180, //
+            stat: "crit",
+          },
+        ],
+        runFunc: function(data: Array<effectData>, player: Player, itemLevel: number, additionalData: any) {
+          let bonus_stats: Stats = {};
+    
+          bonus_stats[data[0].stat!] = runGenericOnUseTrinket({...data[0], ...trinketRawData["Nevermelting Ice Crystal"][0]}, itemLevel, additionalData.castModel) * 2.5
           
           return bonus_stats;
         }

@@ -57,10 +57,10 @@ export function addSpecMastery(playerSpec, setStats = {}) {
 }
 
 // A lot of trinkets in the game are very generic PPM stat trinkets. These all use effectively the same formula.
-export function runGenericPPMTrinket(effect, itemLevel, setStats = {}) {
+export function runGenericPPMTrinket(effect, itemLevel, setStats = {}, flags = []) {
     const rawValue = processedValue(effect, itemLevel);
     const diminishedValue = effect.stat === "allyStats" ? rawValue : getDiminishedValue(effect.stat, rawValue, setStats[effect.stat] || 0);
-    const uptime = convertPPMToUptime(effect.ppm, effect.duration);
+    const uptime = flags.includes("RefreshExtends") ? convertPPMToUptimeExtended(effect.ppm, effect.duration) : convertPPMToUptime(effect.ppm, effect.duration);
     return diminishedValue * uptime;
 }
 
@@ -156,6 +156,15 @@ export function convertPPMToUptime(PPM, duration) {
   return 1.13 * (1 - Math.E ** -((PPM * duration) / 60));
 }
 
+// Some trinkets when they proc while active instead pandemic.
+// We'll need to work this out in full, but this will work for the week.
+export function convertPPMToUptimeExtended(PPM, duration) {
+  const regularUptime = convertPPMToUptime(PPM, duration);
+  const overlappingUptime = 1.13 * duration * PPM / 60;
+
+  return (regularUptime * 0.8 + overlappingUptime * 0.2);
+}
+
 export function convertPPMToUptimeWithICD(PPM, duration) {
   
 }
@@ -182,7 +191,8 @@ export function getSetting(playerSettings, setting) {
 
   if (setting in playerSettings) return playerSettings[setting].value;
   else {
-    reportError("", "Setting", "Missing Setting", setting)
+    console.error("Missing Setting" + setting);
+    //reportError("", "Setting", "Missing Setting", setting)
     return 0;
   }
 

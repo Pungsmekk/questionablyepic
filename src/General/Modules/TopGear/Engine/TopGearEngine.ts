@@ -105,14 +105,14 @@ function getMidnightGemOptions(spec: string, contentType: contentTypes, settings
   }
   else if (spec === "Discipline Priest") {
     // Haste / Crit, Crit / Haste
-    gemArray.fill(getGemID('haste', 'mastery'), 1);
+    gemArray.fill(getGemID('haste', 'crit'), 1);
     return gemArray;
     return [metaGem, getGemID('haste', 'mastery')]/*, getGemID('mastery', 'haste'), getGemID('crit', 'haste'), getGemID('versatility', 'haste'),
       getGemID('haste', 'mastery'), getGemID('haste', 'mastery'), getGemID('haste', 'mastery'), getGemID('haste', 'mastery')];*/
   }
   else if (spec === "Holy Priest") {
     // Crit / Mastery, Mastery / Crit
-    gemArray.fill(getGemID('crit', 'mastery'), 1);
+    gemArray.fill(getGemID('crit', 'versatility'), 1);
     return gemArray;
     return [metaGem, getGemID('crit', 'mastery')]/*, getGemID('mastery', 'crit'), getGemID('versatility', 'crit'), getGemID('haste', 'crit'),
                 getGemID('crit', 'mastery'), getGemID('crit', 'mastery'), getGemID('crit', 'mastery'), getGemID('crit', 'mastery')];*/
@@ -408,7 +408,7 @@ function createSets(itemList: Item[], rawWepCombos: Item[], spec: string) {
                                 ((splitItems.Finger[finger].id !== splitItems.Finger[finger2].id) ||
                                 (splitItems.Finger[finger].id === 215130 || splitItems.Finger[finger2].id === 215130) ||
                                 (splitItems.Finger[finger].id === 215137 || splitItems.Finger[finger2].id === 215137) ||
-                                splitItems.Finger[finger].id === 215135)) {
+                                splitItems.Finger[finger].id === 215135 || splitItems.Finger[finger].id === 240951)) {
 
                               for (var trinket = 0; trinket < slotLengths.Trinket - 1; trinket++) {
                                 softScore.trinket = splitItems.Trinket[trinket].softScore;
@@ -758,7 +758,7 @@ function evalSet(rawItemSet: ItemSet, player: Player, contentType: contentTypes,
 
   // Sockets
   // Check for Advanced gem setting and then run this instead of the above.
-  if (getSetting(userSettings, "gemSettings") === ("Precise")) {
+  if (false) {
     enchants["Gems"] = getTopGearGems(gemID, Math.max(0, builtSet.setSockets), bonus_stats );
     
   }
@@ -897,7 +897,7 @@ function evalSet(rawItemSet: ItemSet, player: Player, contentType: contentTypes,
  
     if (player.spec === "Restoration Shaman") {
       playerData.masteryEffectiveness = getSetting(userSettings, "masteryEffectivenessShaman") / 100;
-      playerData.params = {asc: {ch: 0, hw: 1}, filler: {ch: 1, hw: 0}}
+      playerData.params = {asc: {ch: 1, hw: 0}, filler: {ch: 1, hw: 0}}
     }
     const castModelResult = castModel.runCastModel(setStats, playerData, userSettings)
     
@@ -905,6 +905,7 @@ function evalSet(rawItemSet: ItemSet, player: Player, contentType: contentTypes,
     
     //evalStats = JSON.parse(JSON.stringify(mergedEffectStats));
     evalStats.leech = (setStats.leech || 0);
+    evalStats.allyStats = (setStats.allyStats || 0);
     evalStats.bonusHPS = (setStats.bonusHPS || 0);
     //hardScore = setStats.hps || 0;
 
@@ -922,8 +923,9 @@ function evalSet(rawItemSet: ItemSet, player: Player, contentType: contentTypes,
       setStats.crit = (setStats.crit || 0) + STATCONVERSION.CRIT * 4;
       setStats.mastery = (setStats.mastery || 0) + STATCONVERSION.MASTERY * 4;
       setStats.intellect = (setStats.intellect || 0) * 1.04;
+      setStats.haste = (setStats.haste || 0) * 1.05;
 
-      mergedEffectStats.haste = (mergedEffectStats.haste || 0) * 1.04;
+      mergedEffectStats.haste = (mergedEffectStats.haste || 0) * 1.05;
       mergedEffectStats.crit = (mergedEffectStats.crit || 0) + STATCONVERSION.CRIT * 4;
       mergedEffectStats.mastery = (mergedEffectStats.mastery || 0) + STATCONVERSION.MASTERY * 4;
       mergedEffectStats.intellect = (mergedEffectStats.intellect || 0) * 1.04;

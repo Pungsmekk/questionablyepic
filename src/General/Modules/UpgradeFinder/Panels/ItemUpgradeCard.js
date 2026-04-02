@@ -106,7 +106,7 @@ export default function ItemCard(props) {
 
   const itemID = item.item;
   const itemName = getTranslatedItemName(itemID, currentLanguage, "", gameType);
-  const itemQuality = item.level > 463 ? "#a73fee" : "#328CE3" //item.getQualityColor();
+  const itemQuality = item.level > 100 ? "#a73fee" : "#328CE3" //item.getQualityColor();
 
   const sourceName = (item) => {
     // Rework this code goodness gracious
@@ -144,6 +144,18 @@ export default function ItemCard(props) {
     if (item.source.instanceId === 1302 && item.source.encounterId > 0) {
       return encounterDB[1302].bosses[item.source.encounterId];
     }
+
+    /* ---------------- Three Midnight Season 1 Raids ---------------- */
+    if (item.source.instanceId === 1307 && item.source.encounterId > 0) {
+      return encounterDB[1307].bosses[item.source.encounterId];
+    }
+    if (item.source.instanceId === 1314 && item.source.encounterId > 0) {
+      return encounterDB[1314].bosses[item.source.encounterId];
+    }
+    if (item.source.instanceId === 1308 && item.source.encounterId > 0) {
+      return encounterDB[1308].bosses[item.source.encounterId];
+    }
+
     /* -------------------------- Classic Bosses ---------------------- */
     if ([745, 746].includes(item.source.instanceId)) {
       return encounterDB[item.source.instanceId].bosses[item.source.encounterId];

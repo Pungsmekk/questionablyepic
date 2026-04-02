@@ -350,9 +350,9 @@ function displayReport(
   };
 
   const topInfo = {
-    color: (gameType === "Retail") ? "brick" : "transparent", //"transparent" player.model.includes("Beta") || 
+    color: (gameType === "Retail") ? "transparent" : "transparent", //"transparent" player.model.includes("Beta") || 
     info: (gameType === "Retail")
-      ? "Blizzard continue to tune items in-game. Be cautious with results until the season begins."
+      ? "This is your best set of gear. You can see how close other sets are below!"
       : "This is your best set of gear. You can see how close other sets are below!",
   };
 
