@@ -1,17 +1,19 @@
 # Step 1: Build the React app
 FROM node:18-alpine AS build
-WORKDIR /app
 
-# Install build dependencies for native modules
+# Add build tools
 RUN apk add --no-cache python3 make g++
 
+WORKDIR /app
 COPY package*.json ./
 
-# The --legacy-peer-deps flag is required to bypass the MUI/React version conflict
+# Install dependencies
 RUN npm install --legacy-peer-deps
 
 COPY . .
-RUN npm run build
+
+# THE FIX: This forces the app to use relative paths instead of /live/
+RUN PUBLIC_URL=. npm run build
 
 # Step 2: Serve with Nginx
 FROM nginx:stable-alpine
